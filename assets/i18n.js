@@ -166,7 +166,7 @@ window.I18N = {
       locationOtherPlaceholder: "Enter location",
       
       notes: "Notes (Optional)",
-      notesPlaceholder: "Any special requirements, dietary preferences, etc."
+      notesPlaceholder: "Any other details you wish to share"
     }
   },
   hi: {
@@ -336,7 +336,7 @@ window.I18N = {
       locationOtherPlaceholder: "स्थान का नाम दर्ज करें",
       
       notes: "टिप्पणी (वैकल्पिक)",
-      notesPlaceholder: "कोई विशेष आवश्यकताएं, भोजन प्राथमिकताएं, आदि"
+      notesPlaceholder: "कोई अन्य जानकारी जो आप साझा करना चाहें"
     }
   }
 };
