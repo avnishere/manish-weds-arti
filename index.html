@@ -49,11 +49,11 @@
     
     <!-- REMOVE ALL STATIC CONTROLS - they were causing issues -->
 
-    <nav class="tabs" id="topnav">
+    <nav class="tabs" id="topnav" role="navigation">
       <a href="#venues" class="tab" data-i18n="nav.venues">Venues</a>
       <a href="#travel" class="tab" data-i18n="nav.travel">Travel</a>
       <a href="#memories" class="tab" data-i18n="nav.memories">Memories</a>
-      <a href="#guests" id="adminNav" class="tab admin-only" style="display:none" data-i18n="nav.guestManager">Guest Manager</a>
+      <a href="#guestManager" id="adminNav" class="tab admin-only" style="display:none" data-i18n="nav.guestManager">Guest Manager</a>
     </nav>
     <main>
       <section id="invite" class="reveal section section-invite">
@@ -402,9 +402,9 @@
         </div>
       </section>
 
-      <section id="guests" class="section admin-only" style="display:none">
+      <section id="guestManager" class="section admin-only" style="display:none">
         <div class="card">
-          <h2 data-i18n="headings.guestManager">Guest Manager</h2>
+          <h2 data-i18n="headings.guestManager">Guest Manager • मेहमान प्रबंधन</h2>
           <div class="table-tools">
             <input type="search" id="search" placeholder="Search name/phone/city">
               <select id="statusFilter">
