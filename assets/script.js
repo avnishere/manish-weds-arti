@@ -644,7 +644,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(attemptAutoPlay, 500);
 
   // Manual toggle
-  audioToggle.addEventListener('click', async () => {
+  audioToggle.addEventListener('click', async (e) => {
+    e.preventDefault(); // Prevent any default behavior
+    e.stopPropagation(); // Stop event bubbling
     audioToggle.classList.remove('needs-user');
     
     if (bgAudio.paused) {
@@ -662,20 +664,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // updateAudioBtn will be called by event listener
   });
 
-  // Try to resume auto-play after any user interaction
-  const enableAutoPlay = () => {
-    if (bgAudio.paused && !audioToggle.classList.contains('manual-pause')) {
-      bgAudio.play()
-        .then(() => {
-          fadeIn();
-          console.log('✓ Music resumed after user interaction');
-        })
-        .catch(() => {});
-    }
-  };
-
-  ['click', 'keydown', 'touchstart'].forEach(event => {
-    document.addEventListener(event, enableAutoPlay, { once: true });
+  // REMOVE the keyboard event listener that was pausing music
+  // The issue was this listener triggering on keydown when typing in PIN input
+  
+  // Only try to resume on MOUSE interactions, not keyboard
+  ['click', 'touchstart'].forEach(event => {
+    document.addEventListener(event, () => {
+      if (bgAudio.paused && !audioToggle.classList.contains('manual-pause')) {
+        bgAudio.play()
+          .then(() => {
+            fadeIn();
+            console.log('✓ Music resumed after user interaction');
+          })
+          .catch(() => {});
+      }
+    }, { once: true });
   });
 
   updateAudioBtn();
