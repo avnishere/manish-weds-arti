@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manish &amp; Arti — Wedding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Tiro+Devanagari+Hindi:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/texture-fix.css" />
+  <link rel="stylesheet" href="assets/background-animation.css" />
+</head>
+<body>
+  <!-- Fallback static image for slow connections -->
+  <div id="videoFallback" style="position:fixed;inset:0;z-index:-4;background:url('assets/img/bg33.png') center/cover;opacity:0.3"></div>
+  
+  <!-- Video background - NOW USING compressed version -->
+  <video id="videoBackground" autoplay loop muted playsinline preload="none">
+    <source src="assets/video/adobe-background-1.mp4" type="video/mp4">
+  </video>
+
+  <!-- Light overlay for video -->
+  <div id="videoLightOverlay"></div>
+
+  <!-- Decorative pattern layer -->
+  <div class="decorative-pattern"></div>
+
+  <!-- Content starts here -->
+  <div id="content">
+    <header class="hero" id="home" role="banner" style="--hero:url('assets/img/banner.svg');">
+      <div class="hero-inner">
+        <h1 class="script">Manish <span>&amp;</span> Arti</h1>
+        <p class="muted" data-i18n="hero.location">Patna • Ankleshwar</p>
+        <div class="hero-ctas">
+          <a href="#invite" class="chip chip-primary" data-i18n="nav.invitation">Invitation</a>
+          <a href="#itinerary" class="chip chip-primary" data-i18n="nav.itinerary">Itinerary</a>
+          <a href="#rsvp" class="chip chip-primary" data-i18n="nav.rsvp">RSVP</a>
+        </div>
+        <div class="floating-actions">
+          <button id="adminBtn" class="gear" title="Admin" aria-label="Admin">⚙︎</button>
+          <button id="langToggle" class="lang-toggle" title="Switch language" aria-label="Switch language">हिं/EN</button>
+          <button id="audioToggle" class="audio-toggle" aria-label="Pause music" title="Pause music">⏸</button>
+        </div>
+      </div>
+    </header>
+    <audio id="bgAudio" preload="auto" loop>
+      <source src="assets/audio/wedding_theme.mp3" type="audio/mpeg">
+    </audio>
+    <nav class="tabs" id="topnav">
+      <a href="#venues" class="tab" data-i18n="nav.venues">Venues</a>
+      <a href="#travel" class="tab" data-i18n="nav.travel">Travel</a>
+      <a href="#memories" class="tab" data-i18n="nav.memories">Memories</a>
+      <a href="#guests" id="adminNav" class="tab admin-only" style="display:none" data-i18n="nav.guestManager">Guest Manager</a>
+    </nav>
+    <main>
+      <section id="invite" class="reveal section section-invite">
+        <!-- <div class="side-art"><img src="assets/img/back45.png" alt=""></div> -->
+        <div class="card invite-card">
+          <h2 data-i18n="headings.invitation">Invitation • आमंत्रण</h2>
+          
+          <!-- Invitation video embed - compact design -->
+          <div class="invite-video">
+            <div class="video-wrapper">
+              <video controls poster="assets/img/bg28.png">
+                <source src="assets/video/invite.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="itinerary" class="reveal section">
+        <div class="card">
+          <h2 data-i18n="headings.itinerary">Itinerary • कार्यक्रम</h2>
+          <div class="timeline">
+            <div class="node"><div class="dot"></div><div class="content">
+              <div class="title" data-i18n="event.mandap">Mandap and Haldi Kalash</div>
+              <div class="meta" data-i18n="event.mandapTime">Sun, 30 Nov • 5 PM Onwards • Patna</div>
+              <div class="actions"><button class="btn btn-primary" id="addMandap" data-i18n="buttons.addMandap">Add to Calendar</button></div>
+            </div></div>
+            <div class="node"><div class="dot"></div><div class="content">
+              <div class="title" data-i18n="event.sangeet">Sangeet</div>
+              <div class="meta" data-i18n="event.sangeetTime">Thu, 4 Dec • 7 PM Onwards • Ankleshwar</div>
+              <div class="actions"><button class="btn btn-primary" id="addSangeet" data-i18n="buttons.addSangeet">Add to Calendar</button></div>
+            </div></div>
+            <div class="node"><div class="dot"></div><div class="content">
+              <div class="title" data-i18n="event.wedding">Wedding</div>
+              <div class="meta" data-i18n="event.weddingTime">Fri, 5 Dec • 5 PM Onwards • Ankleshwar</div>
+              <div class="actions"><button class="btn btn-primary" id="addWedding" data-i18n="buttons.addWedding">Add to Calendar</button></div>
+            </div></div>
+            <div class="node"><div class="dot"></div><div class="content">
+              <div class="title" data-i18n="event.reception">Reception</div>
+              <div class="meta" data-i18n="event.receptionTime">Wed, 10 Dec • 6 PM Onwards • Patna</div>
+              <div class="actions"><button class="btn btn-primary" id="addReception" data-i18n="buttons.addReception">Add to Calendar</button></div>
+            </div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="venues" class="reveal section">
+        <div class="grid-2 adapt">
+          <!-- Ankleshwar Ceremonies -->
+          <div class="venue card">
+            <div class="banner"><img src="assets/img/bg32.png" alt="Ankleshwar venue"></div>
+            <div class="v-content">
+              <h3 data-i18n="headings.ankCeremonies">Ankleshwar Ceremonies</h3>
+              
+              <!-- Wedding Venue -->
+              <div class="venue-item">
+                <h4 class="venue-name" data-i18n="venue.gokulName">Gokul Party Plot</h4>
+                <p class="venue-address" data-i18n="venue.gokulAddress">Nr. Yogi Estate GIDC, Ankaleshwar, Gujarat</p>
+                <a class="btn venue-btn" target="_blank" href="https://maps.google.com/?q=Gokul+Party+Plot+Ankleshwar">
+                  <span class="btn-icon">📍</span>
+                  <span data-i18n="venue.gokulButton">Wedding Venue</span>
+                </a>
+              </div>
+              
+              <!-- Hotel Venue -->
+              <div class="venue-item">
+                <h4 class="venue-name" data-i18n="venue.gorbandhName">The Gorbandh Palace Hotel</h4>
+                <p class="venue-address" data-i18n="venue.gorbandhAddress">Opp. GIDC Reservoir, Valia Road GIDC, Ankaleshwar, Gujarat</p>
+                <a class="btn venue-btn" target="_blank" href="https://maps.google.com/?q=The+Gorbandh+Palace+Hotel+Ankleshwar">
+                  <span class="btn-icon">📍</span>
+                  <span data-i18n="venue.gorbandhButton">Hotel</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Patna Reception -->
+          <div class="venue card">
+            <div class="banner"><img src="assets/img/bg27.png" alt="Patna venue"></div>
+            <div class="v-content">
+              <h3 data-i18n="headings.patnaCeremonies">Patna Ceremonies</h3>
+              
+              <!-- Reception Venue -->
+              <div class="venue-item">
+                <h4 class="venue-name" data-i18n="venue.shangrilaName">Shangri-La Palace</h4>
+                <p class="venue-address" data-i18n="venue.shangrilaAddress">Bailey Rd, opp. CISRO Hospital, near Saguna More, Patna, Bihar</p>
+                <a class="btn venue-btn" target="_blank" href="https://maps.app.goo.gl/fEFe9B4kLRKs5qpm9">
+                  <span class="btn-icon">📍</span>
+                  <span data-i18n="venue.shangrilaButton">Reception Venue</span>
+                </a>
+              </div>
+              <div class="venue-item">
+                <h4 class="venue-name" data-i18n="venue.residenceName">Residence</h4>
+                <p class="venue-address" data-i18n="venue.residenceAddress">286, Chankyapuri, Garikhana, Danapur-Khagaul Road, Patna, Bihar</p>
+                <a class="btn venue-btn" target="_blank" href="https://maps.app.goo.gl/vHwAzqgbdg2czXZMA">
+                  <span class="btn-icon">📍</span>
+                  <span data-i18n="venue.residenceButton">Mandap and Haldi Kalash Venue</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="travel" class="reveal section">
+        <div class="card travel-card">
+          <div class="travel-content">
+            <h3 data-i18n="travel.contacts">Contacts</h3>
+            <ul class="bullet">
+              <li>+91 9097274267</li>
+              <li>+91 8107135012</li>
+              <li>+91 9953849918</li>
+            </ul>
+            <p class="note" data-i18n="travel.shareNote">Please share your arrival details below.</p>
+          </div>
+          <div class="travel-banner">
+            <img src="assets/img/bg20.png" alt="Travel decorative banner">
+          </div>
+        </div>
+      </section>
+
+      <section id="rsvp" class="reveal section">
+        <div class="card rsvp-card">
+          <h2 data-i18n="headings.rsvp">RSVP &amp; Travel Details</h2>
+          
+          <form id="rsvpForm" novalidate>
+            <!-- Row 1: Name, Phone, Guests -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label data-i18n="form.fullName">Full Name</label>
+                <input type="text" id="name" required data-i18n-placeholder="form.namePlaceholder">
+              </div>
+              <div class="form-group">
+                <label data-i18n="form.phone">Phone</label>
+                <input type="tel" id="phone" required data-i18n-placeholder="form.phonePlaceholder">
+              </div>
+              <div class="form-group">
+                <label data-i18n="form.guests">Guests</label>
+                <input type="number" id="guests" min="1" value="1">
+              </div>
+            </div>
+
+            <!-- Row 2: Date, Time -->
+            <div class="form-group-row-2">
+              <div class="form-group">
+                <label data-i18n="form.arrivalDate">Arrival Date</label>
+                <input type="date" id="arrivalDate" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="form.arrivalTime">Arrival Time</label>
+                <input type="time" id="arrivalTime" required>
+              </div>
+            </div>
+
+            <!-- Row 3: Mode, Number, City -->
+            <div class="form-group-row-3">
+              <div class="form-group">
+                <label data-i18n="form.mode">Mode</label>
+                <select id="mode">
+                  <option data-i18n="form.modeFlight">Flight</option>
+                  <option data-i18n="form.modeTrain">Train</option>
+                  <option data-i18n="form.modeCar">Car</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="form.flightTrain">Flight/Train No.</label>
+                <input type="text" id="number" data-i18n-placeholder="form.flightTrainPlaceholder">
+              </div>
+              <div class="form-group">
+                <label data-i18n="form.city">City</label>
+                <input type="text" id="city" data-i18n-placeholder="form.cityPlaceholder">
+              </div>
+            </div>
+
+            <!-- Row 4: Notes -->
+            <div class="form-group">
+              <label data-i18n="form.notes">Notes (Optional)</label>
+              <textarea id="notes" data-i18n-placeholder="form.notesPlaceholder"></textarea>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" data-i18n="buttons.sendDetails">Send Details</button>
+              <span id="formMsg" class="msg" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="guests" class="section admin-only" style="display:none">
+        <div class="card">
+          <h2 data-i18n="headings.guestManager">Guest Manager • मेहमान प्रबंधन</h2>
+          <div class="table-tools">
+            <input type="search" id="search" placeholder="Search name/phone/city">
+              <select id="statusFilter">
+                <option value="">All Status</option>
+                <option>Pending</option>
+                <option>Arrived</option>
+                <option>Checked-in</option>
+              </select>
+              <button id="exportBtn" class="btn" data-i18n="buttons.exportCsv">Export CSV</button>
+              <label class="file btn">Import CSV<input type="file" id="importFile" accept=".csv" hidden></label>
+              <button id="logoutBtn" class="btn" data-i18n="buttons.lock">Lock</button>
+              <span id="adminMsg" class="msg"></span>
+          </div>
+          <div class="table-wrap">
+            <table id="guestTable">
+              <thead>
+                <tr>
+                  <th data-i18n="table.name">Name</th>
+                  <th data-i18n="table.phone">Phone</th>
+                  <th data-i18n="table.guests">Guests</th>
+                  <th data-i18n="table.arrival">Arrival</th>
+                  <th data-i18n="table.mode">Mode</th>
+                  <th data-i18n="table.number">No.</th>
+                  <th data-i18n="table.city">City</th>
+                  <th data-i18n="table.hotel">Hotel</th>
+                  <th data-i18n="table.room">Room</th>
+                  <th data-i18n="table.status">Status</th>
+                  <th data-i18n="table.notes">Notes</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="memories" class="reveal section">
+        <div class="card">
+          <h2 data-i18n="headings.memories">Memories • स्मृतियाँ</h2>
+          <div class="gallery">
+            <figure class="img ph tall"><img src="assets/img/bg21.png" alt=""></figure>
+            <figure class="img ph"><img src="assets/img/watch.png" alt=""></figure>
+          </div>
+        </div>
+      </section>
+      <div style="font-family:'Samarkan',cursive;font-size:2rem;color:#b91c1c; text-align: center;">
+        Manish weds Arti
+      </div>
+    </main>
+  
+  <!-- Back to top button -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
+    <span class="arrow">↑</span>
+  </button>
+  
+  </div>
+  <footer class="footer">
+    <div data-i18n="footer.tagline">Made with ❤️ 322</div>
+    <small data-i18n="footer.subtitle">Built for family &amp; friends. See you soon!</small>
+  </footer>
+
+  <dialog id="pinModal">
+    <form id="pinForm" class="pin-form">
+      <h3 data-i18n="admin.title">Admin Access</h3>
+      <p data-i18n="admin.instruction">Enter PIN to manage guest list.</p>
+      <input type="password" id="pin" data-i18n-placeholder="admin.pinPlaceholder" required>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary" id="pinSubmit" value="unlock" data-i18n="admin.unlock">Unlock</button>
+        <button type="button" class="btn" id="pinCancel" data-i18n="admin.cancel">Cancel</button>
+      </div>
+      <small id="pinMsg" class="msg"></small>
+    </form>
+  </dialog>
+
+  <script>window.ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxUxUMsR-5ix_1XN0dQ3t2vSiVIQCuOD7itzCX3PVIY0qq6GsPiX8u_8M9IlCR9llrx/exec";</script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/script.js"></script>
+  <script src="assets/reveal.js"></script>
+</body>
+</html>
