@@ -1,0 +1,59 @@
+/* === Elegant Wedding Background Animation === */
+
+/* Fullscreen video background with smooth animations */
+#videoBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -3;
+  display: block !important;
+  opacity: 0.3; /* Always visible - no fade-in needed */
+  transform: scale(1.1);
+  animation: smoothVideoFlow 60s ease-in-out infinite;
+}
+
+/* Smooth video pan and zoom animation */
+@keyframes smoothVideoFlow {
+  0%, 100% {
+    transform: scale(1.1) translate(0, 0);
+  }
+  25% {
+    transform: scale(1.15) translate(-2%, 2%);
+  }
+  50% {
+    transform: scale(1.12) translate(2%, -1%);
+  }
+  75% {
+    transform: scale(1.18) translate(-1%, 2%);
+  }
+}
+
+/* Mobile - less aggressive zoom */
+@media (max-width: 780px), (orientation: portrait) {
+  #videoBackground {
+    transform: scale(1.2);
+  }
+  
+  @keyframes smoothVideoFlow {
+    0%, 100% {
+      transform: scale(1.2) translate(0, 0);
+    }
+    25% {
+      transform: scale(1.25) translate(-3%, 2%);
+    }
+    50% {
+      transform: scale(1.22) translate(3%, -2%);
+    }
+    75% {
+      transform: scale(1.28) translate(-2%, 3%);
+    }
+  }
+}
+
+/* Rose-gold gradient overlay - REMOVED */
+#videoLightOverlay {
+  display: none !important;
+}
