@@ -10,7 +10,7 @@
   object-fit: cover;
   z-index: -3;
   display: block !important;
-  opacity: 0.3; /* Always visible - no fade-in needed */
+  opacity: 0.6; /* Always visible - no fade-in needed */
   transform: scale(1.1);
   animation: smoothVideoFlow 60s ease-in-out infinite;
 }

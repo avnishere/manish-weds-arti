@@ -589,6 +589,9 @@ document.addEventListener('DOMContentLoaded', () => {
   bgAudio.preload = 'auto';
   bgAudio.volume = 0; // Start at 0 for fade-in
   
+  // Track if music was manually paused by user
+  let wasMusicPlaying = false;
+  
   function updateAudioBtn() {
     const playing = !bgAudio.paused;
     audioToggle.textContent = playing ? '⏸' : '▶';
@@ -645,8 +648,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Manual toggle
   audioToggle.addEventListener('click', async (e) => {
-    e.preventDefault(); // Prevent any default behavior
-    e.stopPropagation(); // Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
     audioToggle.classList.remove('needs-user');
     
     if (bgAudio.paused) {
@@ -661,12 +664,8 @@ document.addEventListener('DOMContentLoaded', () => {
       fadeOut();
       console.log('✓ Music paused by user');
     }
-    // updateAudioBtn will be called by event listener
   });
 
-  // REMOVE the keyboard event listener that was pausing music
-  // The issue was this listener triggering on keydown when typing in PIN input
-  
   // Only try to resume on MOUSE interactions, not keyboard
   ['click', 'touchstart'].forEach(event => {
     document.addEventListener(event, () => {
@@ -682,6 +681,45 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   updateAudioBtn();
+  
+  // === NEW: Handle invitation video interaction ===
+  const inviteVideo = document.querySelector('.invite-video video');
+  
+  if (inviteVideo) {
+    // When video starts playing, pause background music
+    inviteVideo.addEventListener('play', () => {
+      if (!bgAudio.paused) {
+        wasMusicPlaying = true; // Remember music was playing
+        fadeOut();
+        console.log('✓ Background music paused for invitation video');
+      }
+    });
+    
+    // When video pauses or ends, resume background music if it was playing
+    inviteVideo.addEventListener('pause', () => {
+      if (wasMusicPlaying) {
+        bgAudio.play()
+          .then(() => {
+            fadeIn();
+            wasMusicPlaying = false;
+            console.log('✓ Background music resumed after video paused');
+          })
+          .catch(() => {});
+      }
+    });
+    
+    inviteVideo.addEventListener('ended', () => {
+      if (wasMusicPlaying) {
+        bgAudio.play()
+          .then(() => {
+            fadeIn();
+            wasMusicPlaying = false;
+            console.log('✓ Background music resumed after video ended');
+          })
+          .catch(() => {});
+      }
+    });
+  }
 });
 
 /* Video background optimization */

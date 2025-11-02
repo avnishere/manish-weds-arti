@@ -3001,6 +3001,7 @@ dialog {
   align-items: center;
   justify-content: center;
   border: 2px solid rgba(186, 144, 65, 0.3); /* Reduced from 3px */
+  position: relative; /* For play button overlay */
 }
 
 .video-wrapper video {
@@ -3010,6 +3011,20 @@ dialog {
   display: block;
   background: #000;
   border-radius: 0;
+  cursor: pointer; /* Show it's clickable */
+}
+
+/* Ensure native video controls are visible */
+.video-wrapper video::-webkit-media-controls {
+  display: flex !important;
+}
+
+.video-wrapper video::-webkit-media-controls-panel {
+  display: flex !important;
+}
+
+.video-wrapper video::-webkit-media-controls-play-button {
+  display: flex !important;
 }
 
 /* Better mobile optimization */
