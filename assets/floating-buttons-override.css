@@ -1,0 +1,369 @@
+/* NUCLEAR OPTION - Force floating buttons above everything */
+
+/* Floating buttons container - ABSOLUTE HIGHEST z-index */
+.floating-actions {
+  position: fixed !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 2147483647 !important; /* Maximum possible z-index value */
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important; /* THIS IS KEY - vertical centering */
+  gap: 8px !important;
+  pointer-events: auto !important;
+  isolation: isolate !important; /* Create new stacking context */
+}
+
+/* Force all three buttons to display and stay on top */
+.floating-actions .lang-toggle,
+.floating-actions .gear,
+.floating-actions .audio-toggle {
+  /* CRITICAL: Force visibility */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  
+  /* Beautiful wedding gradient - circular blob */
+  background: linear-gradient(135deg, 
+    rgba(255, 250, 245, 0.95) 0%,
+    rgba(255, 245, 238, 0.93) 50%,
+    rgba(255, 248, 243, 0.92) 100%
+  ) !important;
+  
+  border: 1.5px solid rgba(186, 144, 65, 0.4) !important;
+  border-radius: 999px !important; /* PERFECT CIRCULAR BLOB */
+  
+  /* IDENTICAL sizing for ALL buttons */
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  padding: 0 !important;
+  
+  /* Typography */
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  line-height: 1 !important;
+  color: #5a0e0e !important; /* maroon */
+  
+  /* Elegant golden shadow */
+  box-shadow: 
+    0 2px 8px rgba(138, 106, 31, 0.2),
+    0 1px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  
+  backdrop-filter: blur(6px) saturate(1.1) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  
+  /* Ensure proper sizing */
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* MAXIMUM z-index for each button */
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  margin: 0 !important;
+}
+
+/* Hover effect with golden glow */
+.floating-actions .lang-toggle:hover,
+.floating-actions .gear:hover,
+.floating-actions .audio-toggle:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 248, 240, 0.98) 0%,
+    rgba(255, 242, 230, 0.96) 50%,
+    rgba(255, 245, 235, 0.94) 100%
+  ) !important;
+  border-color: rgba(186, 144, 65, 0.7) !important;
+  color: #8a6a1f !important; /* gold */
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 
+    0 4px 12px rgba(138, 106, 31, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px rgba(138, 106, 31, 0.2) !important;
+}
+
+/* Language toggle - slightly wider */
+.floating-actions .lang-toggle {
+  font-family: 'Inter', 'Tiro Devanagari Hindi', sans-serif !important;
+  letter-spacing: 0.03em !important;
+  text-align: center !important;
+  font-size: 0.75rem !important;
+}
+
+/* Gear icon */
+.floating-actions .gear {
+  font-size: 0.9rem !important;
+}
+
+/* PULSE ANIMATION for music button */
+.floating-actions .audio-toggle.needs-user {
+  animation: pulse-wedding 2s ease-in-out infinite !important;
+  background: linear-gradient(135deg, 
+    rgba(255, 248, 220, 0.98) 0%,
+    rgba(255, 242, 200, 0.96) 50%,
+    rgba(255, 245, 210, 0.94) 100%
+  ) !important;
+}
+
+@keyframes pulse-wedding {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      0 2px 8px rgba(212, 163, 7, 0.3),
+      0 1px 4px rgba(0, 0, 0, 0.1),
+      0 0 0 2px rgba(212, 163, 7, 0.2);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 
+      0 4px 12px rgba(212, 163, 7, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.15),
+      0 0 0 3px rgba(212, 163, 7, 0.3);
+  }
+}
+
+/* Remove pulse when music is playing */
+.floating-actions .audio-toggle:not(.needs-user) {
+  animation: none !important;
+}
+
+/* Ensure modals still appear above buttons when open */
+dialog[open] {
+  z-index: 2147483646 !important; /* Just below buttons - they should close modal anyway */
+}
+
+/* Mobile adjustments */
+@media (max-width: 560px) {
+  .floating-actions {
+    top: 10px !important;
+    right: 10px !important;
+    gap: 6px !important;
+  }
+
+  .floating-actions .lang-toggle,
+  .floating-actions .gear,
+  .floating-actions .audio-toggle {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    font-size: 0.7rem !important;
+  }
+  
+  .floating-actions .gear {
+    font-size: 0.8rem !important;
+  }
+  
+  .floating-actions .lang-toggle {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* NUCLEAR OPTION - Maximum specificity override */
+
+/* Test if file loads - background should turn slightly pink on body */
+body {
+  /* Remove this after confirming file loads */
+  background-color: rgba(255, 240, 240, 0.05) !important;
+}
+
+/* FORCE floating buttons container to maximum z-index */
+html body #content .floating-actions,
+.floating-actions {
+  position: fixed !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important; /* Force vertical alignment */
+  gap: 8px !important;
+  pointer-events: auto !important;
+  isolation: isolate !important;
+}
+
+/* FORCE all three buttons with maximum specificity */
+html body #content .floating-actions button.lang-toggle,
+html body #content .floating-actions button.gear,
+html body #content .floating-actions button.audio-toggle,
+.floating-actions .lang-toggle,
+.floating-actions .gear,
+.floating-actions .audio-toggle {
+  /* Force display */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  
+  /* Wedding gradient - circular blob */
+  background: linear-gradient(135deg, 
+    rgba(255, 250, 245, 0.95) 0%,
+    rgba(255, 245, 238, 0.93) 50%,
+    rgba(255, 248, 243, 0.92) 100%
+  ) !important;
+  
+  border: 1.5px solid rgba(186, 144, 65, 0.4) !important;
+  border-radius: 999px !important;
+  
+  /* IDENTICAL sizing for ALL buttons */
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  padding: 0 !important;
+  
+  /* Typography */
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  line-height: 1 !important;
+  color: #5a0e0e !important;
+  
+  /* Shadow */
+  box-shadow: 
+    0 2px 8px rgba(138, 106, 31, 0.2),
+    0 1px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  
+  backdrop-filter: blur(6px) saturate(1.1) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  
+  /* PERFECT ALIGNMENT - ensure all buttons have same height */
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  
+  /* Maximum z-index */
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  
+  /* Remove any default margins */
+  margin: 0 !important;
+}
+
+/* Hover effect */
+html body #content .floating-actions button.lang-toggle:hover,
+html body #content .floating-actions button.gear:hover,
+html body #content .floating-actions button.audio-toggle:hover,
+.floating-actions .lang-toggle:hover,
+.floating-actions .gear:hover,
+.floating-actions .audio-toggle:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 248, 240, 0.98) 0%,
+    rgba(255, 242, 230, 0.96) 50%,
+    rgba(255, 245, 235, 0.94) 100%
+  ) !important;
+  border-color: rgba(186, 144, 65, 0.7) !important;
+  color: #8a6a1f !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 
+    0 4px 12px rgba(138, 106, 31, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px rgba(138, 106, 31, 0.2) !important;
+}
+
+/* Language toggle specific */
+html body #content .floating-actions button.lang-toggle,
+.floating-actions .lang-toggle {
+  font-family: 'Inter', 'Tiro Devanagari Hindi', sans-serif !important;
+  letter-spacing: 0.03em !important;
+  text-align: center !important;
+  font-size: 0.75rem !important;
+}
+
+/* Gear icon specific */
+html body #content .floating-actions button.gear,
+.floating-actions .gear {
+  font-size: 0.9rem !important;
+}
+
+/* PULSE ANIMATION for music button */
+html body #content .floating-actions button.audio-toggle.needs-user,
+.floating-actions .audio-toggle.needs-user {
+  animation: pulse-wedding 2s ease-in-out infinite !important;
+  background: linear-gradient(135deg, 
+    rgba(255, 248, 220, 0.98) 0%,
+    rgba(255, 242, 200, 0.96) 50%,
+    rgba(255, 245, 210, 0.94) 100%
+  ) !important;
+}
+
+@keyframes pulse-wedding {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      0 2px 8px rgba(212, 163, 7, 0.3),
+      0 1px 4px rgba(0, 0, 0, 0.1),
+      0 0 0 2px rgba(212, 163, 7, 0.2);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 
+      0 4px 12px rgba(212, 163, 7, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.15),
+      0 0 0 3px rgba(212, 163, 7, 0.3);
+  }
+}
+
+/* Remove pulse when playing */
+html body #content .floating-actions button.audio-toggle:not(.needs-user),
+.floating-actions .audio-toggle:not(.needs-user) {
+  animation: none !important;
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  html body #content .floating-actions,
+  .floating-actions {
+    top: 10px !important;
+    right: 10px !important;
+    gap: 6px !important;
+    align-items: center !important; /* Force vertical alignment */
+  }
+
+  html body #content .floating-actions button,
+  .floating-actions button {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    font-size: 0.7rem !important;
+  }
+  
+  .floating-actions .gear {
+    font-size: 0.8rem !important;
+  }
+  
+  .floating-actions .lang-toggle {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Console log to verify file loads */
+body::after {
+  content: "Override CSS Loaded ✓" !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  background: rgba(0, 255, 0, 0.8) !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  font-size: 10px !important;
+  z-index: 999999 !important;
+  pointer-events: none !important;
+}

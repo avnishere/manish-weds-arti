@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link rel="stylesheet" href="assets/texture-fix.css" />
   <link rel="stylesheet" href="assets/background-animation.css" />
+  <link rel="stylesheet" href="assets/floating-buttons-override.css" />
 </head>
 <body>
   <!-- Fallback static image for slow connections -->
@@ -37,7 +38,7 @@
         </div>
         <div class="floating-actions">
           <button id="adminBtn" class="gear" title="Admin" aria-label="Admin">⚙︎</button>
-          <button id="langToggle" class="lang-toggle" title="Switch language" aria-label="Switch language">हिं/EN</button>
+          <button id="langToggle" class="lang-toggle" title="Switch language" aria-label="Switch language">EN</button>
           <button id="audioToggle" class="audio-toggle" aria-label="Pause music" title="Pause music">⏸</button>
         </div>
       </div>
@@ -45,6 +46,9 @@
     <audio id="bgAudio" preload="auto" loop>
       <source src="assets/audio/wedding_theme.mp3" type="audio/mpeg">
     </audio>
+    
+    <!-- REMOVE ALL STATIC CONTROLS - they were causing issues -->
+
     <nav class="tabs" id="topnav">
       <a href="#venues" class="tab" data-i18n="nav.venues">Venues</a>
       <a href="#travel" class="tab" data-i18n="nav.travel">Travel</a>
@@ -55,7 +59,7 @@
       <section id="invite" class="reveal section section-invite">
         <!-- <div class="side-art"><img src="assets/img/back45.png" alt=""></div> -->
         <div class="card invite-card">
-          <h2 data-i18n="headings.invitation">Invitation • आमंत्रण</h2>
+          <h2 data-i18n="headings.invitation">Invitation</h2>
           
           <!-- Invitation video embed - compact design -->
           <div class="invite-video">
@@ -71,7 +75,7 @@
 
       <section id="itinerary" class="reveal section">
         <div class="card">
-          <h2 data-i18n="headings.itinerary">Itinerary • कार्यक्रम</h2>
+          <h2 data-i18n="headings.itinerary">Itinerary</h2>
           <div class="timeline">
             <div class="node"><div class="dot"></div><div class="content">
               <div class="title" data-i18n="event.mandap">Mandap and Haldi Kalash</div>
@@ -80,7 +84,7 @@
             </div></div>
             <div class="node"><div class="dot"></div><div class="content">
               <div class="title" data-i18n="event.sangeet">Sangeet</div>
-              <div class="meta" data-i18n="event.sangeetTime">Thu, 4 Dec • 7 PM Onwards • Ankleshwar</div>
+              <div class="meta" data-i18n="event.sangeetTime">Thu, 4 Dec • 6 PM Onwards • Ankleshwar</div>
               <div class="actions"><button class="btn btn-primary" id="addSangeet" data-i18n="buttons.addSangeet">Add to Calendar</button></div>
             </div></div>
             <div class="node"><div class="dot"></div><div class="content">
@@ -174,11 +178,11 @@
 
       <section id="rsvp" class="reveal section">
         <div class="card rsvp-card">
-          <h2 data-i18n="headings.rsvp">RSVP &amp; Travel Details</h2>
+          <h2 data-i18n="headings.rsvp">RSVP & Travel Details</h2>
           
           <form id="rsvpForm" novalidate>
-            <!-- Row 1: Name, Phone, Guests -->
-            <div class="form-group-row">
+            <!-- Basic Info Row: Name, Phone, Guests -->
+            <div class="form-group-row-wide">
               <div class="form-group">
                 <label data-i18n="form.fullName">Full Name</label>
                 <input type="text" id="name" required data-i18n-placeholder="form.namePlaceholder">
@@ -193,39 +197,197 @@
               </div>
             </div>
 
-            <!-- Row 2: Date, Time -->
+            <!-- Arrival Section -->
+            <div class="form-section-header" data-i18n="form.arrivalDetails">Arrival Details</div>
+            
+            <!-- Arrival Row 1: Date, Mode -->
             <div class="form-group-row-2">
               <div class="form-group">
                 <label data-i18n="form.arrivalDate">Arrival Date</label>
                 <input type="date" id="arrivalDate" required>
               </div>
               <div class="form-group">
-                <label data-i18n="form.arrivalTime">Arrival Time</label>
-                <input type="time" id="arrivalTime" required>
-              </div>
-            </div>
-
-            <!-- Row 3: Mode, Number, City -->
-            <div class="form-group-row-3">
-              <div class="form-group">
-                <label data-i18n="form.mode">Mode</label>
-                <select id="mode">
-                  <option data-i18n="form.modeFlight">Flight</option>
-                  <option data-i18n="form.modeTrain">Train</option>
-                  <option data-i18n="form.modeCar">Car</option>
+                <label data-i18n="form.arrivalMode">Arrival Mode</label>
+                <select id="arrivalMode" required>
+                  <option value="" data-i18n="form.selectMode">Select Mode</option>
+                  <option value="Flight" data-i18n="form.modeFlight">Flight</option>
+                  <option value="Train" data-i18n="form.modeTrain">Train</option>
+                  <option value="Car" data-i18n="form.modeCar">Car</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label data-i18n="form.flightTrain">Flight/Train No.</label>
-                <input type="text" id="number" data-i18n-placeholder="form.flightTrainPlaceholder">
+            </div>
+
+            <!-- Flight Arrival Options -->
+            <div id="arrivalFlightSection" class="conditional-section" style="display:none;">
+              <div class="form-group-row-3">
+                <div class="form-group">
+                  <label data-i18n="form.flightTime">Flight Time</label>
+                  <input type="time" id="arrivalFlightTime">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.flightNumber">Flight Number</label>
+                  <input type="text" id="arrivalFlightNumber" data-i18n-placeholder="form.flightNumberPlaceholder">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.fromAirport">Arriving at Airport</label>
+                  <select id="arrivalAirport">
+                    <option value="" data-i18n="form.selectAirport">Select Airport</option>
+                    <option value="Surat Airport" data-i18n="form.suratAirport">Surat Airport</option>
+                    <option value="Ahmedabad Airport" data-i18n="form.ahmedabadAirport">Ahmedabad Airport</option>
+                    <option value="Vadodara Airport" data-i18n="form.vadodaraAirport">Vadodara Airport</option>
+                    <option value="Other" data-i18n="form.otherAirport">Other Airport</option>
+                  </select>
+                </div>
               </div>
-              <div class="form-group">
-                <label data-i18n="form.city">City</label>
-                <input type="text" id="city" data-i18n-placeholder="form.cityPlaceholder">
+              <div class="form-group" id="arrivalAirportOtherGroup" style="display:none;">
+                <input type="text" id="arrivalAirportOther" data-i18n-placeholder="form.airportOtherPlaceholder">
               </div>
             </div>
 
-            <!-- Row 4: Notes -->
+            <!-- Train Arrival Options -->
+            <div id="arrivalTrainSection" class="conditional-section" style="display:none;">
+              <div class="form-group-row-3">
+                <div class="form-group">
+                  <label data-i18n="form.trainTime">Train Time</label>
+                  <input type="time" id="arrivalTrainTime">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.trainNumber">Train Number</label>
+                  <input type="text" id="arrivalTrainNumber" data-i18n-placeholder="form.trainNumberPlaceholder">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.fromStation">Arriving at Station</label>
+                  <select id="arrivalStation">
+                    <option value="" data-i18n="form.selectStation">Select Station</option>
+                    <option value="Ankleshwar Station" data-i18n="form.ankleshwarStation">Ankleshwar Station</option>
+                    <option value="Bharuch Station" data-i18n="form.bharuchStation">Bharuch Station</option>
+                    <option value="Surat Station" data-i18n="form.suratStation">Surat Station</option>
+                    <option value="Other" data-i18n="form.otherStation">Other Station</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="arrivalStationOtherGroup" style="display:none;">
+                <input type="text" id="arrivalStationOther" data-i18n-placeholder="form.stationOtherPlaceholder">
+              </div>
+            </div>
+
+            <!-- Car Arrival Options -->
+            <div id="arrivalCarSection" class="conditional-section" style="display:none;">
+              <div class="form-group-row-2">
+                <div class="form-group">
+                  <label data-i18n="form.arrivalTime">Arrival Time (Optional)</label>
+                  <input type="time" id="arrivalCarTime">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.fromLocation">Arriving at Location</label>
+                  <select id="arrivalLocation">
+                    <option value="" data-i18n="form.selectLocation">Select Location</option>
+                    <option value="Ankleshwar" data-i18n="form.ankleshwar">Ankleshwar</option>
+                    <option value="Other" data-i18n="form.otherLocation">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="arrivalLocationOtherGroup" style="display:none;">
+                <input type="text" id="arrivalLocationOther" data-i18n-placeholder="form.locationOtherPlaceholder">
+              </div>
+            </div>
+
+            <!-- Departure Section -->
+            <div class="form-section-header" data-i18n="form.departureDetails">Departure Details</div>
+            
+            <!-- Departure Row 1: Date, Mode -->
+            <div class="form-group-row-2">
+              <div class="form-group">
+                <label data-i18n="form.departureDate">Departure Date</label>
+                <input type="date" id="departureDate">
+              </div>
+              <div class="form-group">
+                <label data-i18n="form.departureMode">Departure Mode</label>
+                <select id="departureMode">
+                  <option value="" data-i18n="form.selectMode">Select Mode</option>
+                  <option value="Flight" data-i18n="form.modeFlight">Flight</option>
+                  <option value="Train" data-i18n="form.modeTrain">Train</option>
+                  <option value="Car" data-i18n="form.modeCar">Car</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Flight Departure Options -->
+            <div id="departureFlightSection" class="conditional-section" style="display:none;">
+              <div class="form-group-row-3">
+                <div class="form-group">
+                  <label data-i18n="form.flightTime">Flight Time</label>
+                  <input type="time" id="departureFlightTime">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.flightNumber">Flight Number</label>
+                  <input type="text" id="departureFlightNumber" data-i18n-placeholder="form.flightNumberPlaceholder">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.departingFromAirport">Departing from Airport</label>
+                  <select id="departureAirport">
+                    <option value="" data-i18n="form.selectAirport">Select Airport</option>
+                    <option value="Surat Airport" data-i18n="form.suratAirport">Surat Airport</option>
+                    <option value="Ahmedabad Airport" data-i18n="form.ahmedabadAirport">Ahmedabad Airport</option>
+                    <option value="Vadodara Airport" data-i18n="form.vadodaraAirport">Vadodara Airport</option>
+                    <option value="Other" data-i18n="form.otherAirport">Other Airport</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="departureAirportOtherGroup" style="display:none;">
+                <input type="text" id="departureAirportOther" data-i18n-placeholder="form.airportOtherPlaceholder">
+              </div>
+            </div>
+
+            <!-- Train Departure Options -->
+            <div id="departureTrainSection" class="conditional-section" style="display:none;">
+              <div class="form-group-row-3">
+                <div class="form-group">
+                  <label data-i18n="form.trainTime">Train Time</label>
+                  <input type="time" id="departureTrainTime">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.trainNumber">Train Number</label>
+                  <input type="text" id="departureTrainNumber" data-i18n-placeholder="form.trainNumberPlaceholder">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.departingFromStation">Departing from Station</label>
+                  <select id="departureStation">
+                    <option value="" data-i18n="form.selectStation">Select Station</option>
+                    <option value="Ankleshwar Station" data-i18n="form.ankleshwarStation">Ankleshwar Station</option>
+                    <option value="Bharuch Station" data-i18n="form.bharuchStation">Bharuch Station</option>
+                    <option value="Surat Station" data-i18n="form.suratStation">Surat Station</option>
+                    <option value="Other" data-i18n="form.otherStation">Other Station</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="departureStationOtherGroup" style="display:none;">
+                <input type="text" id="departureStationOther" data-i18n-placeholder="form.stationOtherPlaceholder">
+              </div>
+            </div>
+
+            <!-- Car Departure Options -->
+            <div id="departureCarSection" class="conditional-section" style="display:none;">
+              <div class="form-group-row-2">
+                <div class="form-group">
+                  <label data-i18n="form.departureTime">Departure Time (Optional)</label>
+                  <input type="time" id="departureCarTime">
+                </div>
+                <div class="form-group">
+                  <label data-i18n="form.departingFromLocation">Departing from Location</label>
+                  <select id="departureLocation">
+                    <option value="" data-i18n="form.selectLocation">Select Location</option>
+                    <option value="Ankleshwar" data-i18n="form.ankleshwar">Ankleshwar</option>
+                    <option value="Other" data-i18n="form.otherLocation">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="departureLocationOtherGroup" style="display:none;">
+                <input type="text" id="departureLocationOther" data-i18n-placeholder="form.locationOtherPlaceholder">
+              </div>
+            </div>
+
+            <!-- Notes -->
             <div class="form-group">
               <label data-i18n="form.notes">Notes (Optional)</label>
               <textarea id="notes" data-i18n-placeholder="form.notesPlaceholder"></textarea>
@@ -242,7 +404,7 @@
 
       <section id="guests" class="section admin-only" style="display:none">
         <div class="card">
-          <h2 data-i18n="headings.guestManager">Guest Manager • मेहमान प्रबंधन</h2>
+          <h2 data-i18n="headings.guestManager">Guest Manager</h2>
           <div class="table-tools">
             <input type="search" id="search" placeholder="Search name/phone/city">
               <select id="statusFilter">
@@ -263,10 +425,16 @@
                   <th data-i18n="table.name">Name</th>
                   <th data-i18n="table.phone">Phone</th>
                   <th data-i18n="table.guests">Guests</th>
-                  <th data-i18n="table.arrival">Arrival</th>
-                  <th data-i18n="table.mode">Mode</th>
-                  <th data-i18n="table.number">No.</th>
-                  <th data-i18n="table.city">City</th>
+                  <th data-i18n="table.arrivalDate">Arrival Date</th>
+                  <th data-i18n="table.arrivalMode">Arr. Mode</th>
+                  <th data-i18n="table.arrivalTime">Arr. Time</th>
+                  <th data-i18n="table.arrivalNumber">Arr. Flight/Train</th>
+                  <th data-i18n="table.arrivalLocation">Arr. Location</th>
+                  <th data-i18n="table.departureDate">Dep. Date</th>
+                  <th data-i18n="table.departureMode">Dep. Mode</th>
+                  <th data-i18n="table.departureTime">Dep. Time</th>
+                  <th data-i18n="table.departureNumber">Dep. Flight/Train</th>
+                  <th data-i18n="table.departureLocation">Dep. Location</th>
                   <th data-i18n="table.hotel">Hotel</th>
                   <th data-i18n="table.room">Room</th>
                   <th data-i18n="table.status">Status</th>
@@ -282,7 +450,7 @@
 
       <section id="memories" class="reveal section">
         <div class="card">
-          <h2 data-i18n="headings.memories">Memories • स्मृतियाँ</h2>
+          <h2 data-i18n="headings.memories">Memories</h2>
           <div class="gallery">
             <figure class="img ph tall"><img src="assets/img/bg21.png" alt=""></figure>
             <figure class="img ph"><img src="assets/img/watch.png" alt=""></figure>
@@ -318,7 +486,19 @@
     </form>
   </dialog>
 
-  <script>window.ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxUxUMsR-5ix_1XN0dQ3t2vSiVIQCuOD7itzCX3PVIY0qq6GsPiX8u_8M9IlCR9llrx/exec";</script>
+  <script>window.ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbz189MToZqfzFbPN8jSpAWoqfTQsMolMMUIxxbgeYIv7gRrI3VppDL_5ny5RnHOWQYs/exec";</script>
+  <script>
+    // Debug: Check if translations load
+    console.log('Checking translation loading...');
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM ready, I18N available?', !!window.I18N);
+      if (window.I18N) {
+        console.log('I18N keys:', Object.keys(window.I18N));
+        console.log('English keys:', Object.keys(window.I18N.en || {}));
+        console.log('Hindi keys:', Object.keys(window.I18N.hi || {}));
+      }
+    });
+  </script>
   <script src="assets/i18n.js"></script>
   <script src="assets/script.js"></script>
   <script src="assets/reveal.js"></script>
