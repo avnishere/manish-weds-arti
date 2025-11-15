@@ -769,3 +769,89 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial check
   toggleBackToTop();
 });
+
+/* Image Lightbox Functions */
+function openLightbox(imageSrc) {
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  
+  lightboxImg.src = imageSrc;
+  lightbox.classList.add('active');
+  
+  // Prevent body scroll when lightbox is open
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('imageLightbox');
+  lightbox.classList.remove('active');
+  
+  // Restore body scroll
+  document.body.style.overflow = '';
+}
+
+// Close lightbox on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeLightbox();
+  }
+});
+
+/* Splash Screen and Audio Initialization */
+document.addEventListener('DOMContentLoaded', function() {
+  const splashOverlay = document.getElementById('splashOverlay');
+  if (!splashOverlay) return;
+  
+  const splashButton = splashOverlay.querySelector('.splash-button');
+  const bgAudio = document.getElementById('bgAudio');
+  const audioToggle = document.getElementById('audioToggle');
+  
+  function dismissSplash() {
+    // Hide splash screen with animation
+    splashOverlay.classList.add('hidden');
+    
+    // Try to play audio after user interaction with proper volume
+    if (bgAudio) {
+      bgAudio.volume = 0;
+      bgAudio.play()
+        .then(() => {
+          console.log('✓ Music started from splash screen');
+          // Fade in the volume
+          let vol = 0;
+          const targetVol = 0.6;
+          const fadeInAudio = () => {
+            vol += 0.02;
+            bgAudio.volume = Math.min(vol, targetVol);
+            if (vol < targetVol) requestAnimationFrame(fadeInAudio);
+          };
+          requestAnimationFrame(fadeInAudio);
+          
+          // Update audio button state
+          if (audioToggle) {
+            audioToggle.textContent = '⏸';
+            audioToggle.setAttribute('aria-label', 'Pause music');
+            audioToggle.title = 'Pause music';
+            audioToggle.classList.remove('needs-user');
+          }
+        })
+        .catch(err => {
+          console.log('Audio play prevented from splash:', err);
+        });
+    }
+    
+    // Remove from DOM after animation completes
+    setTimeout(() => {
+      splashOverlay.remove();
+    }, 600);
+  }
+  
+  // Click anywhere on overlay to dismiss
+  splashOverlay.addEventListener('click', dismissSplash);
+  
+  // Also allow Enter key to dismiss
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !splashOverlay.classList.contains('hidden')) {
+      dismissSplash();
+    }
+  }, { once: true });
+});

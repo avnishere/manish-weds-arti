@@ -11,6 +11,14 @@
   <link rel="stylesheet" href="assets/floating-buttons-override.css" />
 </head>
 <body>
+  <!-- Splash Screen Overlay -->
+  <div id="splashOverlay" class="splash-overlay">
+    <div class="splash-content">
+      <h1 class="splash-names">Manish <span>&amp;</span> Arti</h1>
+      <button class="splash-button">Click to Enter</button>
+    </div>
+  </div>
+
   <!-- Fallback static image for slow connections -->
   <div id="videoFallback" style="position:fixed;inset:0;z-index:-4;background:url('assets/img/bg33.png') center/cover;opacity:0.3"></div>
   
@@ -451,12 +459,22 @@
       <section id="memories" class="reveal section">
         <div class="card">
           <h2 data-i18n="headings.memories">Memories</h2>
-          <div class="gallery">
-            <figure class="img ph tall"><img src="assets/img/bg21.png" alt=""></figure>
-            <figure class="img ph"><img src="assets/img/watch.png" alt=""></figure>
+          <div class="gallery" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: flex-start;">
+            <figure class="img ph" style="flex: 0 1 auto; max-width: 100%; cursor: pointer;"><img src="assets/img/photo1.png" alt="Memory 1" style="width: auto; height: auto; max-width: 300px; max-height: 400px; object-fit: contain; display: block;" onclick="openLightbox(this.src)"></figure>
+            <figure class="img ph" style="flex: 0 1 auto; max-width: 100%; cursor: pointer;"><img src="assets/img/photo2.png" alt="Memory 2" style="width: auto; height: auto; max-width: 300px; max-height: 400px; object-fit: contain; display: block;" onclick="openLightbox(this.src)"></figure>
+            <figure class="img ph" style="flex: 0 1 auto; max-width: 100%; cursor: pointer;"><img src="assets/img/photo3.png" alt="Memory 3" style="width: auto; height: auto; max-width: 300px; max-height: 400px; object-fit: contain; display: block;" onclick="openLightbox(this.src)"></figure>
+            <figure class="img ph" style="flex: 0 1 auto; max-width: 100%; cursor: pointer;"><img src="assets/img/photo5.png" alt="Memory 5" style="width: auto; height: auto; max-width: 300px; max-height: 400px; object-fit: contain; display: block;" onclick="openLightbox(this.src)"></figure>
+            <figure class="img ph" style="flex: 0 1 auto; max-width: 100%; cursor: pointer;"><img src="assets/img/photo6.png" alt="Memory 5" style="width: auto; height: auto; max-width: 300px; max-height: 400px; object-fit: contain; display: block;" onclick="openLightbox(this.src)"></figure>
           </div>
         </div>
       </section>
+      
+      <!-- Image Lightbox Modal -->
+      <div id="imageLightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" onclick="event.stopPropagation()">
+      </div>
+      
       <div style="font-family:'Samarkan',cursive;font-size:2rem;color:#b91c1c; text-align: center;">
         Manish weds Arti
       </div>

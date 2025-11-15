@@ -94,7 +94,7 @@ body::after {
   inset: 0;
   width: 100%;
   height: 100%;
-  background-image: url('img/bg33.png');
+  background-image: url('img/photo4.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -146,22 +146,23 @@ body::after {
   font-size: clamp(3.5rem, 9vw, 6.5rem);
   background: linear-gradient(
     135deg,
-    #700000 0%,      /* Rich dark red */
-    #8b1538 15%,     /* Crimson */
-    #4a0e4e 30%,     /* Deep purple */
-    #2c003e 45%,     /* Royal purple */
-    #1a0033 60%,     /* Dark violet */
-    #700000 75%,     /* Rich dark red */
-    #8b1538 100%     /* Crimson */
+    #ffcc00 0%,      /* Bright golden yellow */
+    #ffaa33 15%,     /* Orange-yellow */
+    #ff8833 30%,     /* Warm orange */
+    #ff6600 45%,     /* Vibrant orange */
+    #ff9944 60%,     /* Golden orange */
+    #ffaa33 75%,     /* Orange-yellow */
+    #ffcc00 100%     /* Bright golden yellow */
   );
   background-size: 300% 300%; /* Increased from 200% for more dramatic movement */
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 0.12em; /* Increased from 0.08em for more elegance */
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4))   /* Softer shadows */
-          drop-shadow(0 1px 2px rgba(255, 255, 255, 0.2))
-          saturate(0.95); /* Slight desaturation for matte look */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6))   /* Stronger shadow for visibility */
+          drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 0 20px rgba(255, 204, 0, 0.4))
+          saturate(1.2) brightness(1.2); /* More vibrant and bright */
   font-weight: 400;
   margin: 0 0 0.5rem;
   animation: shimmer 6s ease-in-out infinite, gradientShift 10s ease-in-out infinite; /* Faster gradient shift */
@@ -2121,12 +2122,14 @@ dialog {
   display: block;
   font-size: clamp(0.95rem, 2.2vw, 1.1rem);
   letter-spacing: 0.25em; /* More spacing for luxury feel */
-  font-weight: 600; /* Changed from 300 to 600 for bold */
+  font-weight: 700; /* Increased from 600 for better visibility */
   text-transform: uppercase;
-  color: rgba(46, 15, 15, 0.7); /* Slightly more transparent */
+  color: #ffba0d; /* Deep red */
   position: relative;
-  /* Add subtle text shadow for depth */
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  /* Add strong text shadow for visibility against any background */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8),
+               0 0 10px rgba(0, 0, 0, 0.6),
+               0 0 20px rgba(139, 0, 0, 0.4);
   font-style: normal;
 }
 
@@ -3568,5 +3571,199 @@ p, .lead, .note, .meta, .request-line, .family-line {
   .floating-actions .gear,
   .floating-actions .audio-toggle {
     padding: 0.32rem 0.54rem !important;
+  }
+}
+
+/* Image Lightbox Styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  cursor: pointer;
+  animation: fadeIn 0.3s ease;
+}
+
+.lightbox.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  animation: zoomIn 0.3s ease;
+  cursor: default;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10000;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+  color: #ffcc00;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { 
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Make gallery images show pointer cursor */
+.gallery .img {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.gallery .img:hover {
+  transform: translateY(-5px);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .lightbox-content {
+    max-width: 95%;
+    max-height: 85vh;
+  }
+  
+  .lightbox-close {
+    top: 10px;
+    right: 15px;
+    font-size: 35px;
+  }
+}
+
+/* Splash Screen Overlay */
+.splash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(249, 236, 236, 0.75);
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  cursor: pointer;
+}
+
+.splash-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-content {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeInUp 1s ease;
+  pointer-events: none;
+}
+
+.splash-names {
+  font-family: 'Samarkan', 'Dancing Script', 'Great Vibes', cursive;
+  font-size: clamp(3rem, 10vw, 6rem);
+  background: linear-gradient(
+    135deg,
+    #ffcc00 0%,
+    #ffaa33 25%,
+    #ff8833 50%,
+    #ff6600 75%,
+    #ffcc00 100%
+  );
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease-in-out infinite;
+  margin: 0 0 2rem;
+  letter-spacing: 0.12em;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.splash-names span {
+  color: #ffe4b3;
+  -webkit-text-fill-color: #ffe4b3;
+  font-size: 0.8em;
+  margin: 0 0.3em;
+}
+
+.splash-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 204, 0, 0.15);
+  border: 1px solid rgba(255, 204, 0, 0.4);
+  border-radius: 25px;
+  color: rgba(46, 15, 15, 0.7);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+.splash-button:hover {
+  background: rgba(255, 204, 0, 0.25);
+  border-color: rgba(255, 204, 0, 0.6);
+  color: rgba(46, 15, 15, 0.9);
+}
+
+.splash-button:active {
+  transform: scale(0.98);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .splash-content {
+    padding: 1.5rem;
+  }
+  
+  .splash-button {
+    padding: 0.45rem 1.25rem;
+    font-size: 0.7rem;
   }
 }
